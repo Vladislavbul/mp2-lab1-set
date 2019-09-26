@@ -13,11 +13,13 @@ TBitField::TBitField(int len)
 	{
 		throw "Error when create bitfield";
 	}
-	this->BitLen = len;
+	BitLen = len;
 	MemLen = (BitLen + 31) / 32; // Кол-во ячеек
     pMem = new TELEM[MemLen]; // Выделение памяти
-	for (int i = 0; i < MemLen; i++) 
+	for (int i = 0; i < MemLen; i++)
+	{
 		pMem[i] = 0;
+	}
 }
 
 TBitField::TBitField(const TBitField &bf) // конструктор копирования
@@ -51,7 +53,7 @@ void TBitField::SetBit(const int n) // установить бит
 	{
 		throw "Error when set bit";
 	}
-	pMem[GetMemIndex(n)] = pMem[GetMemIndex(n)] | GetMemMask(n);
+	pMem[GetMemIndex(n)] = pMem[GetMemIndex(n)] | GetMemMask(n); 
 }
 
 void TBitField::ClrBit(const int n) // очистить бит
@@ -81,9 +83,9 @@ TBitField& TBitField::operator=(const TBitField &bf) // присваивание
 		return *this;
 	}
 	delete[] pMem;
-	BitLen = bf.BitLen;
-	MemLen = bf.MemLen;
-	pMem = new TELEM[MemLen];
+	BitLen = bf.BitLen; // длина
+	MemLen = bf.MemLen; // кол-во ячеек
+	pMem = new TELEM[MemLen]; // выделение памяти
 	for (int i = 0; i < MemLen; i++)
 	{
 		pMem[i] = bf.pMem[i];
@@ -93,7 +95,18 @@ TBitField& TBitField::operator=(const TBitField &bf) // присваивание
 
 int TBitField::operator==(const TBitField &bf) const // сравнение
 {
-  return 0;
+	if (bf.BitLen != BitLen) // сравниваем размеры массивов
+	{
+		return 0;
+	}
+	else // проверяем данные в массивах
+	{
+		for (int i = 0; i < MemLen; i++)
+		{
+			if (pMem[i] != bf.pMem[i]) return 0;
+		}
+	}
+	return 1;
 }
 
 int TBitField::operator!=(const TBitField &bf) const // сравнение
@@ -119,7 +132,7 @@ TBitField TBitField::operator~(void) // отрицание
 // ввод/вывод
 
 istream &operator>>(istream &istr, TBitField &bf) // ввод
-{
+{	
 	return istr;
 }
 

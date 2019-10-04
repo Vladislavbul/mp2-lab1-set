@@ -61,7 +61,7 @@ void TBitField::SetBit(const int n) // установить бит
 	{
 		throw "Error when set bit";
 	}
-	pMem[GetMemIndex(n)] = pMem[GetMemIndex(n)] | GetMemMask(n); 
+	pMem[GetMemIndex(n)] = pMem[GetMemIndex(n)] | GetMemMask(n);
 }
 
 void TBitField::ClrBit(const int n) // очистить бит
@@ -196,6 +196,7 @@ istream& operator>>(istream& istr, TBitField& bf) // ввод
 		istr >> ch;
 	}
 	while (ch != ' ');
+
 	while (1)
 	{
 		istr >> ch;
